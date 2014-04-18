@@ -34,7 +34,7 @@
                     {
                         [new_num_members] (+ @@0x0 1)
                         [[0x0]] @new_num_members
-                        [[(+ @new_num_members 0x1)]] (caller)
+                        [[@new_num_members]] (caller)
                         [[(caller)]] 1 ;Mark the account as used by depositing 1 wei
                     })
             }
