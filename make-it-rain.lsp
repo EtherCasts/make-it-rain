@@ -3,7 +3,7 @@
     [[0x0]] (caller) ;Admin!
     [[0x1]] 1      ;Number of members
     [[0x2]] (caller) ;Admin is first member
-    [0x0]:"Make It Test" ;You can put a more specific name here
+    [0x0]:"Make It Tes3" ;You can put a more specific name here
     (call 0x11d11764cd7f6ecda172e0b72370e6ea7f75f290 0 0 0 12 0 0) ;Register with name registration
 }
 {
@@ -22,7 +22,7 @@
             {
                 ;pay everything to previous tipper
                 [previous_tipper] @@(+ @@0x1 0x1)
-                [[previous_tipper]] (+ @@previous_tipper (callvalue))
+                [[@previous_tipper]] (+ @@ @previous_tipper (callvalue))
 
                 ;add address to storage
                 [new_num_members] (+ @@0x1 1)
