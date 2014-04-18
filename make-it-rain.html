@@ -1,122 +1,71 @@
 <html>
 <head>
-<title>Hot Russian Grills want to date you!</title>
-		<style>
+<title>Make It Rain</title>
+        <style>
 body {
-	font-family: Gentium, Georgia, serif
+    font-family: "Comic Sans MS", cursive, sans-serif
 }
-h1, h2 {
-	font-family: Trebuchet MS, sans
+h1 {
+    font-size: 16pt;
+    color: red;
 }
-h1 { 
-	font-size: 16pt
-}
-h2 { 
-	font-size: 13pt
+h2 {
+    font-size: 13pt;
+    color: cyan;
 }
 div {
-	margin-left: 8pt;
+    margin-left: 8pt;
+    color: green;
 }
 img {
-	margin: 4pt;
-	padding: 6pt;
+    margin: 4pt;
+    padding: 6pt;
 }
-		</style>
+        </style>
 <script>
-var lottoAddr = key.addressOf("1d44f704ee5ebf08bda0407ef8a438cc026751f2");
-buyticket = function()
+var contractAddr = key.addressOf("TODO");
+raindance = function()
 {
-	var ticketnum = Number(document.getElementById("ticket").value);
-	if ((ticketnum<0)||(ticketnum>99)) {
-		window.alert("Ticket numbers are in [0,99]")
-		window.alert("Do it right next time!")
-		return;
-	};
-	
-	if (ticketnum != "")
-		eth.transact(key.secret(eth.keys()[0]), u256.ether(2), lottoAddr, u256.bytesOf(u256.value(ticketnum)), u256.value(10000), eth.gasPrice());
-}
-lookupTickets = function()
-{
-	var myTable= "<table><tr><td style='width: 100px; color: red;'>Your Tickets</td></tr>";
-    myTable+="<tr><td style='width: 100px;                   '>---------------</td></tr>";
+    var amount = Number(document.getElementById("amount").value);
+    if ((amount<=0)) {
+        window.alert("Amount should be positive!")
+        return;
+    };
 
-	
-	var location = 8;
-	var myaddrs = eth.keys();
-	var myaddr = 0;
-	var check =0;
-	for (var i = 0; i < myaddrs.length; i++) {
-		 myaddr = u256.toValue(u256.fromAddress(key.address(myaddrs[i])));
-
-		while (!u256.isNull(eth.storageAt(lottoAddr, u256.value(location)))) {
-			check = u256.toValue(eth.storageAt(lottoAddr, u256.value(location)));
-			if (check == myaddr) {
-
-				myTable+="<tr><td style='width: 100px;'>" + u256.toValue(eth.storageAt(lottoAddr, u256.value(location+1))) + "</td></tr>";
-			};
-			location=location+2;
-		};
-	};
-
-	myTable+="</table>";
-	document.getElementById('TicketTable').innerHTML = myTable;
+    eth.transact(key.secret(eth.keys()[0]), u256.ether(amount), contractAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
 }
 
 claim = function()
-{	
-	var r=confirm("Are you sure? Your money is safe with me!");
-	if (r==true)
-  	{
-  		var myaddrs = eth.keys();
-		for (var i = 0; i < myaddrs.length; i++) {
-			eth.transact(key.secret(myaddrs[i]), u256.ether(0), lottoAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
-		};
-  	}
-	else
-  	{
-  		return;
-  	}
-
+{
+    var myaddrs = eth.keys();
+    for (var i = 0; i < myaddrs.length; i++) {
+        eth.transact(key.secret(myaddrs[i]), u256.ether(0), contractAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
+    };
 }
 
 check = function()
-{	
-	var myaddrs = eth.keys();
-	var myaddr = 0;
-	bal = 0;
-	for (var i = 0; i < myaddrs.length; i++) {
-		myaddr = u256.fromAddress(key.address(myaddrs[i]));
-		bal = bal+u256.toValue(eth.storageAt(lottoAddr,myaddr));
-	};
-	var win = bal/1000000000000000000;
-    var winning= "<h1><font style=' color: red;'>" + win.toFixed(2) + " E</font></h1>";
-    document.getElementById('winnings').innerHTML = winning;
+{
+    var myaddrs = eth.keys();
+    var myaddr = 0;
+    bal = 0;
+    for (var i = 0; i < myaddrs.length; i++) {
+        myaddr = u256.fromAddress(key.address(myaddrs[i]));
+        bal = bal+u256.toValue(eth.storageAt(contractAddr,myaddr));
+    };
+    var total = bal/1000000000000000000;
+    document.getElementById('total').innerHTML = "<h1><font style=' color: red;'>" + total.toFixed(2) + " E</font></h1>";
 }
 
-lookupJackpot = function()
-{
-	var Jackpot = u256.toValue(eth.storageAt(lottoAddr,u256.value(6)))/1000000000000000000;
-    var JACKP = "<h1><font style=' color: red;'>" + Jackpot.toFixed(2) + " E</font></h1>";
-    document.getElementById('jackpt').innerHTML = JACKP;
-}
 </script>
 </head>
 <body>
-<h1>Denny's Lotto</h1>
-<h2>(Totally not a scam you can trust me)</h2>
-<b>The Jackpot is:</b><div id="jackpt"> </div>
-<button onClick="lookupJackpot()">Whats the Jackpot?</button><br>
--------------------------------------------------------------
+    <h1>Make It Rain!</h1>
+    <h2>Start A Rain</h2>
 <table>
-<tr><td>BUY TICKETS!</td><td> </td></tr>
-<tr><td><label for="name">Ticket Num: </label></td><td><input id="ticket" type="text" value=""/><button onClick="buyticket()">BUY!</button></td></tr>
+<tr><td><label for="name">How much do you want to tip: </label></td><td><input id="amount" type="text" value=""/><button onClick="raindance()">RAINZ!</button></td></tr>
 </table>
-<button onClick="lookupTickets()">Find My Tickets!</button>
-<div id="TicketTable"> </div><br>
--------------------------------------------------------------
-<b>Your Winnings:</b><div id="winnings"> </div>
+<hr />
+<b style="color: gold;">Your Received Tips:</b><div id="total"> </div>
 <button onClick="check()">Check</button><button onClick="claim()">Claim</button>
-<h6>Tickets cost 2 ether each. Ticket numbers are between 0 and 99. The draw happens every 16 blocks. If you get the have the winning ticket you win the JACKPOT*. If you have the same 1's digit you win 5 ether!!</h6>
 </body>
 </html>
