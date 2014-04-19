@@ -1,4 +1,6 @@
-;;; Make It Rain - tip to random people who have previously tipped.
+;;; Make It Rain
+;;; Tip Ether to random people who have previously tipped.
+;;; After this you are added to the member list and can collect tips.
 ;;; Inspired by The Doge Tipping App
 {
   ;;; Initialization

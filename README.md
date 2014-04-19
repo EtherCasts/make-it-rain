@@ -1,4 +1,9 @@
 Make It Rain
 ============
 
-I'll write more later. This is an implementation of the Make It Rain with an html interface!
+Tip Ether to random people who have previously tipped.
+After this you are added to the member list and can collect tips.
+
+https://ethercasts.github.io/make-it-rain/make-it-rain.html
+
+Inspired by The Doge Tipping App - http://youtu.be/1MSzYjHPNS0
