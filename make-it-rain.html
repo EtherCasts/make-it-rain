@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Make It Rain</title>
-        <style>
+<style>
 body {
     font-family: "Comic Sans MS", cursive, sans-serif
 }
@@ -17,8 +17,9 @@ body {
     background:url('rain_bg.gif') repeat;
     height: 500px;
 }
-        </style>
+</style>
 <script>
+
 var nameRegAddr = key.addressOf("11d11764cd7f6ecda172e0b72370e6ea7f75f290");
 var contractName = "Make It Tes3";
 var contractAddr;
@@ -32,18 +33,23 @@ lookupContractAddress = function() {
 makeItRain = function() {
     var amount = Number(document.getElementById("amount").value);
     if ((amount<=0)) {
-        window.alert("Amount should be positive!")
+        window.alert("Amount should be positive!");
         return;
-    };
+    }
+    var recipients = Number(document.getElementById("recipients").value);
+    if (!(1 <= recipients <= 32)) {
+        window.alert("Recipients should be between 1 and 32!");
+        return;
+    }
 
-    eth.transact(key.secret(eth.keys()[0]), u256.ether(amount), contractAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
+    eth.transact(key.secret(eth.keys()[0]), u256.ether(amount), contractAddr, u256.bytesOf(u256.value(recipients)), u256.value(10000), eth.gasPrice());
 }
 
 claim = function() {
     var myaddrs = eth.keys();
     for (var i = 0; i < myaddrs.length; i++) {
         eth.transact(key.secret(myaddrs[i]), u256.ether(0), contractAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
-    };
+    }
 }
 
 check = function() {
@@ -53,8 +59,8 @@ check = function() {
     for (var i = 0; i < myaddrs.length; i++) {
         myaddr = u256.fromAddress(key.address(myaddrs[i]));
         bal = bal+u256.toValue(eth.storageAt(contractAddr,myaddr));
-    };
-    var total = bal/1000000000000000000;
+    }
+    var total = bal / Math.pow(10, 18);
     document.getElementById('total').innerHTML = "<h1><font style=' color: red;'>" + total.toFixed(2) + " E</font></h1>";
 }
 
@@ -64,13 +70,16 @@ check = function() {
     <h1>Make It Rain!</h1>
     Using contract "<span id="contractName"></span>" (0x<span id="contractAddr"></span>).
     <h2>Start A Rain</h2>
-<table>
-<tr><td><label for="name">How much Ether do you want to tip: </label></td><td><input id="amount" type="text" value=""/><button onClick="makeItRain()">RAINZ!</button></td></tr>
-</table>
-<h6>
-Tip Ether to random people who have previously tipped.
-After this you are added to the member list and can collect tips.
-</h6>
+    <label for="amount">How much Ether do you want to tip in total: </label>
+    <input id="amount" type="text" value=""/><br />
+    <label for="recipients">To how many recipients do you want to tip (1-32): </label>
+    <input id="recipients" type="text" value=""/>
+    <button onClick="makeItRain()">RAINZ!</button>
+
+    <h6>
+    Tip Ether to random people who have previously tipped.
+    After this you are added to the member list and can collect tips.
+    </h6>
 <hr />
 <b style="color: gold;">Your Received Tips:</b><div id="total"> </div>
 <button onClick="check()">Check</button><button onClick="claim()">Claim</button>
