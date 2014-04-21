@@ -12,7 +12,7 @@
   [[(caller)]] 1 ; Admin exists, give 1 wei to mark membership
 
   ;; Register with NameReg
-  [0x0] "Make It Tes3" ; You can put a more specific name here
+  [0x0] "Make It Rain" ; You can put a more specific name here
   (call 0x11d11764cd7f6ecda172e0b72370e6ea7f75f290 0 0 0x0 12 0 0)
 }
 {
