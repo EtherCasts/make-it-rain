@@ -51,7 +51,7 @@
               {
                 [random_data] (+ (prevhash) @cnt)
                 [random_number] (sha3 random_data 0x20)
-                [random_tipper] @@(+ (mod @random_number @@0x00) 0x10)
+                [random_tipper] @@(+ (mod @random_number @@0x00) 0x09)
                 [[@random_tipper]] (+ @@ @random_tipper @split_tip_amount)
               })
 
@@ -60,7 +60,7 @@
               {
                 [newest_member] (+ @@0x00 1)
                 [[0x00]] @newest_member
-                [[(+ @newest_member 0x10)]] (caller)
+                [[(+ @newest_member 0x09)]] (caller)
                 [[(caller)]] 1 ; Mark the account as member by depositing 1 wei
               })
           })
