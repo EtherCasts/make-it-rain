@@ -25,7 +25,7 @@ var contractName = "Make It Tes3";
 var contractAddr;
 
 lookupContractAddress = function() {
-    contractAddr = u256.fromAddress(eth.storageAt(nameRegAddr, bytes.u256of(bytes.fromString(contractName, 32))));
+    contractAddr = u256.toAddress(eth.storageAt(nameRegAddr, bytes.u256of(bytes.fromString(contractName, 32))));
     document.getElementById('contractName').innerHTML = contractName;
     document.getElementById('contractAddr').innerHTML = key.stringOf(contractAddr);
 }
