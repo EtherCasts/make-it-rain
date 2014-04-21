@@ -60,7 +60,7 @@
               {
                 [newest_member] (+ @@0x00 1)
                 [[0x00]] @newest_member
-                [[(+ @newest_member 0x09)]] (caller)
+                [[(+ @newest_member 0x0F)]] (caller)
                 [[(caller)]] 1 ; Mark the account as member by depositing 1 wei
               })
           })
