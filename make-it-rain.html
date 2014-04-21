@@ -35,10 +35,19 @@ lookupContractAddress = function() {
 }
 
 showStatistics = function() {
-    document.getElementById('members').innerHTML = u256.toValue(eth.storageAt(contractAddr, u256.value(0)));
-    document.getElementById('totalTimesTipped').innerHTML = u256.toValue(eth.storageAt(contractAddr, u256.value(1)));
-    document.getElementById('totalSplitsTipped').innerHTML = u256.toValue(eth.storageAt(contractAddr, u256.value(2)));
-    document.getElementById('totalAmountTipped').innerHTML = u256.toEther(eth.storageAt(contractAddr, u256.value(3)));
+    var members = u256.toValue(eth.storageAt(contractAddr, u256.value(0)))
+    var totalTimesTipped = u256.toValue(eth.storageAt(contractAddr, u256.value(1)));
+    var totalRecipientsTipped = u256.toValue(eth.storageAt(contractAddr, u256.value(2)));
+    var totalAmountTipped = u256.toEther(eth.storageAt(contractAddr, u256.value(3)));
+
+    document.getElementById('members').innerHTML = members;
+    document.getElementById('totalTimesTipped').innerHTML = totalTimesTipped;
+    document.getElementById('totalRecipientsTipped').innerHTML = totalRecipientsTipped;
+    document.getElementById('totalAmountTipped').innerHTML = totalAmountTipped;
+
+    document.getElementById('avgTimesTipped').innerHTML = (totalTimesTipped / members).toFixed(2);
+    document.getElementById('avgRecipientsTipped').innerHTML = (totalRecipientsTipped / members).toFixed(2);
+    document.getElementById('avgAmountTipped').innerHTML = (totalAmountTipped / members).toFixed(2);
 }
 
 makeItRain = function() {
@@ -76,9 +85,11 @@ check = function() {
         var myaddr = u256.fromAddress(key.address(myaddrs[i]));
         var myaddrStr = key.stringOf(key.address(myaddrs[i]));
         var value = u256.toValue(eth.storageAt(contractAddr, myaddr));
-        var valueE = value / Math.pow(10, 18);
-        txt = txt + myaddrStr + " " + valueE.toFixed(2) + " E <button onClick=\"claim('" + myaddrStr + "')\">Claim</button><br />";
-        total = total + value;
+        if (value > 0) {
+            var valueE = value / Math.pow(10, 18);
+            txt = txt + myaddrStr + " " + valueE.toFixed(2) + " E <button onClick=\"claim('" + myaddrStr + "')\">Claim</button><br />";
+            total = total + value;
+        }
     }
 
     var totalE = total / Math.pow(10, 18);
@@ -95,8 +106,11 @@ check = function() {
     <ul>
         <li>Members: <span id="members"></span>
         <li>Total times tipped: <span id="totalTimesTipped"></span>
-        <li>Total splits tipped: <span id="totalSplitsTipped"></span>
+            (Average per member: <span id="avgTimesTipped"></span>)
+        <li>Total recipients tipped: <span id="totalRecipientsTipped"></span>
+            (Average per member: <span id="avgRecipientsTipped"></span>)
         <li>Total amount tipped: <span id="totalAmountTipped"></span> E
+            (Average per member: <span id="avgAmountTipped"></span> E)
     </ul>
 
     <h2>Start A Rain</h2>
