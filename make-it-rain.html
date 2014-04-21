@@ -56,23 +56,33 @@ makeItRain = function() {
     eth.transact(key.secret(eth.keys()[0]), u256.ether(amount), contractAddr, u256.bytesOf(u256.value(recipients)), u256.value(10000), eth.gasPrice());
 }
 
-claim = function() {
+claim = function(myaddrStr) {
     var myaddrs = eth.keys();
+    var myaddr = 0;
     for (var i = 0; i < myaddrs.length; i++) {
-        eth.transact(key.secret(myaddrs[i]), u256.ether(0), contractAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
+        if (myaddrStr === key.stringOf(key.address(myaddrs[i]))) {
+            myaddr = myaddrs[i];
+        }
     }
+
+    eth.transact(key.secret(myaddr), u256.ether(0), contractAddr, bytes.fromString("",0), u256.value(10000), eth.gasPrice());
 }
 
 check = function() {
     var myaddrs = eth.keys();
-    var myaddr = 0;
-    bal = 0;
+    var total = 0;
+    var txt = "";
     for (var i = 0; i < myaddrs.length; i++) {
-        myaddr = u256.fromAddress(key.address(myaddrs[i]));
-        bal = bal+u256.toValue(eth.storageAt(contractAddr,myaddr));
+        var myaddr = u256.fromAddress(key.address(myaddrs[i]));
+        var myaddrStr = key.stringOf(key.address(myaddrs[i]));
+        var value = u256.toValue(eth.storageAt(contractAddr, myaddr));
+        var valueE = value / Math.pow(10, 18);
+        txt = txt + myaddrStr + " " + valueE.toFixed(2) + " E <button onClick=\"claim('" + myaddrStr + "')\">Claim</button><br />";
+        total = total + value;
     }
-    var total = bal / Math.pow(10, 18);
-    document.getElementById('total').innerHTML = "<h1><font style=' color: red;'>" + total.toFixed(2) + " E</font></h1>";
+
+    var totalE = total / Math.pow(10, 18);
+    document.getElementById('total').innerHTML = txt + "<h1><font style=' color: red;'>" + totalE.toFixed(2) + " E</font></h1>";
 }
 
 </script>
@@ -86,7 +96,7 @@ check = function() {
         <li>Members: <span id="members"></span>
         <li>Total times tipped: <span id="totalTimesTipped"></span>
         <li>Total splits tipped: <span id="totalSplitsTipped"></span>
-        <li>Total amount tipped: <span id="totalAmountTipped"></span>E
+        <li>Total amount tipped: <span id="totalAmountTipped"></span> E
     </ul>
 
     <h2>Start A Rain</h2>
@@ -105,7 +115,6 @@ check = function() {
     <h4>Your Received Tips:</h3>
     <div id="total"> </div>
     <button onClick="check()">Check</button>
-    <button onClick="claim()">Claim</button>
 </body>
 
 <script>
