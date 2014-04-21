@@ -28,7 +28,7 @@
             (suicide (caller))
           })
 
-        (if (> (callvalue) 0)
+        (when (> (callvalue) 0)
           {
             ;; Pay everything to N random tippers
             [splits] (calldataload 0)
