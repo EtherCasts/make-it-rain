@@ -51,7 +51,7 @@
               {
                 [random_data] (+ (prevhash) @cnt)
                 [random_number] (sha3 random_data 0x20)
-                [random_tipper] @@(+ (mod @random_number @@0x00) 0x09)
+                [random_tipper] @@(+ (mod @random_number @@0x00) 0x10)
                 [[@random_tipper]] (+ @@ @random_tipper @split_tip_amount)
               })
 
