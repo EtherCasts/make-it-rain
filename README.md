@@ -1,11 +1,6 @@
 # Make It Rain
-============
 
 A decentralized tipping system on Ethereum that splits tips between a designated recipient and random previous tippers.
-
-## Original version (implemented in LLL)
-
-https://ethercasts.github.io/make-it-rain/make-it-rain.html
 
 ## Overview
 
@@ -87,8 +82,8 @@ For most use cases, 5 random recipients provides a good balance between distribu
 
 MIT License
 
-Tip Ether to random people who have previously tipped.
-After this you are added to the member list and can collect tips.
+## Original version (implemented in LLL)
 
+https://ethercasts.github.io/make-it-rain/make-it-rain.html
 
 Inspired by The Doge Tipping App - http://youtu.be/1MSzYjHPNS0
